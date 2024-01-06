@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socks Buttons</title>
+    <style>
+        body {
+            background-color: #202020;
+            color: #FFFFFF;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        button {
+            background-color: #555555;
+            color: #FFFFFF;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #666666;
+        }
+    </style>
+    <script>
+        function openLink(link) {
+            window.open(link);
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            fetch('socksF.txt')
+                .then(response => response.text())
+                .then(data => {
+                    var lines = data.split('\n');
+                    var randomLines = [];
+                    while (randomLines.length < 5) {
+                        var randomIndex = Math.floor(Math.random() * lines.length);
+                        var randomLine = lines[randomIndex].trim();
+                        if (randomLine !== '' && !randomLines.includes(randomLine)) {
+                            randomLines.push(randomLine);
+                        }
+                    }
+                    randomLines.forEach((line, index) => {
+                        var button = document.createElement('button');
+                        button.innerHTML = 'socks' + (index + 1);
+                        button.addEventListener('click', () => openLink(line));
+                        document.querySelector('.button-container').appendChild(button);
+                    });
+                });
+        });
+    </script>
+</head>
+<body>
+    <div class="button-container"></div>
+</body>
+</html>

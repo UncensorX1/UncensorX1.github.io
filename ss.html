@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Ss Lines</title>
+  <style>
+    body {
+      background-color: #080808;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+    }
+
+    h1 {
+      color: #fff;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 5;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <ul id="random-lines"></ul>
+
+  <script>
+    // Function to read lines from a file
+    function readLinesFromFile(file, callback) {
+      var rawFile = new XMLHttpRequest();
+      rawFile.open("GET", file, true);
+      rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4 && rawFile.status === 200) {
+          var lines = rawFile.responseText.split("\n");
+          callback(lines);
+        }
+      }
+      rawFile.send(null);
+    }
+
+    // Function to randomly select lines
+    function getRandomLines(lines, count) {
+      var randomLines = [];
+      while (randomLines.length < count) {
+        var randomIndex = Math.floor(Math.random() * lines.length);
+        var line = lines[randomIndex].trim();
+        if (line !== "") {
+          randomLines.push(line);
+        }
+      }
+      return randomLines;
+    }
+
+    // Function to display random lines on the page
+    function displayRandomLines(lines) {
+      var randomLines = getRandomLines(lines, 50);
+      var ul = document.getElementById("random-lines");
+      randomLines.forEach(function(line) {
+        var li = document.createElement("li");
+        li.textContent = line;
+        ul.appendChild(li);
+      });
+    }
+
+    readLinesFromFile("SsF.txt", displayRandomLines);
+  </script>
+</body>
+</html>
